@@ -124,7 +124,7 @@ portfolio_data = {
   },
   {
         "titulo": "FP Quiz",
-        "descripcion": "Plataforma de cuestionarios del centro para que mis compañeros practiquen por temas, hagan simulacros y descarguen tests en PDF. Incluye historial de resultados y explicación con IA cuando fallas una pregunta.",
+        "descripcion": "Plataforma de cuestionarios del centro formativo para que mis compañeros practiquen por temas, hagan simulacros y descarguen los tests en PDF. Incluye registro de preguntas falladas y explicación con IA cuando fallas una pregunta.",
         "tecnologias": ["Python", "Streamlit", "SQLite", "IA"],
         "url": "https://fpquizapp-ygbx38tv2hg4n3qevoh9qr.streamlit.app/",
         "github": "https://github.com/alejandria1899/fp_quiz_app",
