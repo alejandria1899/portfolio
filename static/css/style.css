@@ -1168,3 +1168,8 @@ html, body {
     transform: translateX(35px) rotate(6deg) scale(0.96);
   }
 }
+
+@media (max-width: 900px) {
+  .hot { cursor: pointer; }
+  .card { transition: transform 0.28s ease, filter 0.28s ease; }
+}

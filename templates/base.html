@@ -74,27 +74,55 @@
 
     <!-- ✅ JS DEL MAZO: izquierda / centro / derecha -->
     <script>
-      (function () {
-        const deck = document.querySelector("#sobre-mi .deck");
-        if (!deck) return;
+  (function () {
+    const deck = document.querySelector("#sobre-mi .deck");
+    if (!deck) return;
 
-        deck.classList.add("is-center");
+    deck.classList.add("is-center");
 
-        const setState = (state) => {
-          deck.classList.remove("is-left", "is-center", "is-right");
-          deck.classList.add(state);
-        };
+    const setState = (state) => {
+      deck.classList.remove("is-left", "is-center", "is-right");
+      deck.classList.add(state);
+    };
 
-        const left = deck.querySelector(".hot.left");
-        const center = deck.querySelector(".hot.center");
-        const right = deck.querySelector(".hot.right");
+    const left = deck.querySelector(".hot.left");
+    const center = deck.querySelector(".hot.center");
+    const right = deck.querySelector(".hot.right");
 
-        if (left) left.addEventListener("mouseenter", () => setState("is-left"));
-        if (center) center.addEventListener("mouseenter", () => setState("is-center"));
-        if (right) right.addEventListener("mouseenter", () => setState("is-right"));
+    // Desktop (hover)
+    if (left) left.addEventListener("mouseenter", () => setState("is-left"));
+    if (center) center.addEventListener("mouseenter", () => setState("is-center"));
+    if (right) right.addEventListener("mouseenter", () => setState("is-right"));
+    deck.addEventListener("mouseleave", () => setState("is-center"));
 
-        deck.addEventListener("mouseleave", () => setState("is-center"));
-      })();
-    </script>
+    // Mobile / Tablet (tap)
+    const tap = (el, state) => {
+      if (!el) return;
+      el.addEventListener(
+        "touchstart",
+        (e) => {
+          e.preventDefault();      // evita scroll raro al tocar
+          setState(state);
+        },
+        { passive: false }
+      );
+
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        setState(state);
+      });
+    };
+
+    tap(left, "is-left");
+    tap(center, "is-center");
+    tap(right, "is-right");
+
+    // Tap fuera del mazo => vuelve al centro
+    document.addEventListener("touchstart", (e) => {
+      if (!deck.contains(e.target)) setState("is-center");
+    });
+  })();
+</script>
+
 </body>
 </html>
