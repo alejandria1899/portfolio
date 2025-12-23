@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ data.nombre }} - Portfolio{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Fuente profesional -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navegación -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="{{ url_for('index') }}">{{ data.nombre }}</a>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#experiencia">Experiencia</a></li>
+                <li><a href="#formacion">Formación</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#sobre-mi">Sobre mí</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <div class="nav-toggle" aria-label="Abrir menú" role="button" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; {{ year }} {{ data.nombre }}. Todos los derechos reservados.</p>
+
+                <div class="social-links">
+                    {% if data.linkedin %}
+                    <a href="{{ data.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    {% endif %}
+                    {% if data.github %}
+                    <a href="{{ data.github }}" target="_blank" rel="noopener" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    {% endif %}
+                    {% if data.email %}
+                    <a href="mailto:{{ data.email }}" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- ✅ JS DEL MAZO: izquierda / centro / derecha -->
+    <script>
+      (function () {
+        const deck = document.querySelector("#sobre-mi .deck");
+        if (!deck) return;
+
+        deck.classList.add("is-center");
+
+        const setState = (state) => {
+          deck.classList.remove("is-left", "is-center", "is-right");
+          deck.classList.add(state);
+        };
+
+        const left = deck.querySelector(".hot.left");
+        const center = deck.querySelector(".hot.center");
+        const right = deck.querySelector(".hot.right");
+
+        if (left) left.addEventListener("mouseenter", () => setState("is-left"));
+        if (center) center.addEventListener("mouseenter", () => setState("is-center"));
+        if (right) right.addEventListener("mouseenter", () => setState("is-right"));
+
+        deck.addEventListener("mouseleave", () => setState("is-center"));
+      })();
+    </script>
+</body>
+</html>

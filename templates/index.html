@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section id="inicio" class="hero">
+  <div class="container">
+    <div class="hero-content">
+
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Hola, soy <span class="highlight">{{ data.nombre }}</span>
+        </h1>
+        <h2 class="hero-subtitle">{{ data.titulo }}</h2>
+        <p class="hero-description">{{ data.resumen }}</p>
+
+        <div class="hero-buttons">
+          <a href="#contacto" class="btn btn-primary">Contactar</a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <div class="profile-photo-wrap">
+          <img src="{{ url_for('static', filename='img/roger.jpg') }}" alt="{{ data.nombre }}">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= FORMACIÓN ================= -->
+<section id="formacion" class="section">
+  <div class="container">
+    <h2 class="section-title">
+      <i class="fas fa-graduation-cap"></i> Formación
+    </h2>
+
+    <div class="education-grid">
+      {% for f in data.formacion %}
+      <div class="education-card">
+        <i class="fas fa-graduation-cap"></i>
+        <h3>{{ f.titulo }}</h3>
+        <h4>{{ f.centro }}</h4>
+        <span>{{ f.periodo }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCIA ================= -->
+<section id="experiencia" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">
+      <i class="fas fa-briefcase"></i> Experiencia
+    </h2>
+
+    <div class="timeline">
+      {% for trabajo in data.experiencia %}
+      <div class="timeline-item">
+        <div class="timeline-marker"></div>
+        <div class="timeline-content">
+          <h3>{{ trabajo.puesto }}</h3>
+          <h4>{{ trabajo.empresa }}</h4>
+          <span>{{ trabajo.periodo }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOBRE MÍ ================= -->
+<section id="sobre-mi" class="section">
+  <div class="container">
+    <h2 class="section-title">
+      <i class="fas fa-user"></i> Sobre mí
+    </h2>
+
+    <div class="about-content">
+
+      <div class="about-text">
+        <p>{{ data.sobre_mi }}</p>
+
+        <!-- Botón Ver Proyectos -->
+        <div class="hero-buttons" style="margin-top: 18px;">
+          <a href="#proyectos" class="btn btn-secondary">Ver proyectos</a>
+        </div>
+      </div>
+
+      <div class="about-photos">
+        <div class="deck">
+
+          <div class="hotspots">
+            <span class="hot left"></span>
+            <span class="hot center"></span>
+            <span class="hot right"></span>
+          </div>
+
+          <div class="cards">
+            <img class="card card-left" src="{{ url_for('static', filename='img/cursa_palleja.JPG') }}">
+            <img class="card card-mid" src="{{ url_for('static', filename='img/maraton.jpg') }}">
+            <img class="card card-right" src="{{ url_for('static', filename='img/ros.jpg') }}">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROYECTOS ================= -->
+<section id="proyectos" class="section section-alt">
+  <div class="container">
+    <h2 class="section-title">
+      <i class="fas fa-project-diagram"></i> Proyectos
+    </h2>
+
+    <div class="projects-grid">
+      {% for p in data.proyectos %}
+      <article class="project-card-v2">
+
+        <a class="project-thumb" href="{{ p.url }}" target="_blank">
+          <img src="{{ url_for('static', filename=p.imagen) }}" alt="{{ p.titulo }}">
+        </a>
+
+        <div class="project-body">
+          <h3 class="project-title">{{ p.titulo }}</h3>
+          <p class="project-desc">{{ p.descripcion }}</p>
+
+          <div class="project-tags">
+            {% for tech in p.tecnologias %}
+            <span class="tag">{{ tech }}</span>
+            {% endfor %}
+          </div>
+
+          <div class="project-actions">
+            <a class="icon-btn" href="{{ p.github }}" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+            <a class="icon-btn" href="{{ p.url }}" target="_blank">
+              <i class="fas fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACTO ================= -->
+<section id="contacto" class="section section-safety">
+  <div class="container">
+    <h2 class="section-title">
+      <i class="fas fa-envelope"></i> Contacto
+    </h2>
+
+    <div class="contact-content contact-equal">
+
+      <!-- TARJETA IZQUIERDA -->
+      <div class="contact-info contact-card">
+        <div class="contact-intro">
+          <h3>¿Hablamos?</h3>
+          <p>
+            Si quieres conocer más sobre mi formación, mis proyectos o intercambiar
+            ideas en el ámbito de la Prevención de Riesgos Laborales y la tecnología,
+            puedes contactarme a través de los siguientes medios.
+          </p>
+        </div>
+
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:{{ data.email }}">{{ data.email }}</a>
+        </div>
+
+        <div class="contact-item">
+          <i class="fab fa-linkedin-in"></i>
+          <a href="{{ data.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+
+        <div class="contact-item">
+          <i class="fab fa-github"></i>
+          <a href="{{ data.github }}" target="_blank" rel="noopener">GitHub</a>
+        </div>
+
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>{{ data.ubicacion }}</span>
+        </div>
+
+      </div>
+
+      <!-- TARJETA DERECHA -->
+      <div class="contact-form contact-card">
+        <h3 class="contact-card-title">
+          <i class="fas fa-paper-plane"></i> Envíame un mensaje
+        </h3>
+
+        <form action="https://formspree.io/f/xojaranq" method="POST">
+
+  <!-- Anti-spam invisible -->
+  <input type="text" name="_gotcha" style="display:none">
+
+  <!-- ASUNTO REAL DEL EMAIL -->
+  <div class="form-group">
+    <input
+      type="text"
+      name="_subject"
+      placeholder="Asunto"
+      required>
+  </div>
+
+  <!-- EMAIL DEL REMITENTE -->
+  <div class="form-group">
+    <input
+      type="email"
+      name="email"
+      placeholder="Tu email"
+      required>
+  </div>
+
+  <!-- MENSAJE -->
+  <div class="form-group">
+    <textarea
+      name="mensaje"
+      rows="6"
+      placeholder="Tu mensaje"
+      required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    <i class="fas fa-paper-plane"></i> Enviar
+  </button>
+
+</form>
+
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

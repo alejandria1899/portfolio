@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto - {{ data.nombre }}{% endblock %}
+
+{% block content %}
+<section class="section contact-page">
+    <div class="container">
+        <h1 class="page-title">Contacto</h1>
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Información de Contacto</h2>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h3>Email</h3>
+                        <a href="mailto:{{ data.email }}">{{ data.email }}</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h3>Teléfono</h3>
+                        <a href="tel:{{ data.telefono }}">{{ data.telefono }}</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Ubicación</h3>
+                        <p>{{ data.ubicacion }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h2>Envíame un Mensaje</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" name="nombre" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Tu email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="mensaje" rows="5" placeholder="Tu mensaje" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
