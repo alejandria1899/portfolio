@@ -29,7 +29,7 @@ portfolio_data = {
     "para mejorar la seguridad en entornos de trabajo, FP Quiz, una aplicación de "
     "cuestionarios para el estudio, y Card Genius, una app de flashcards para el "
     "aprendizaje progresivo. "
-    "Además, soy un amante del deporte. Durante años practiqué intensamente running, lo que me llevó a completar una maratón y una media maratón de montaña. "
+    "Además, soy un amante del deporte, durante años practiqué intensamente running, lo que me llevó a completar una maratón y una media maratón de montaña. "
     "Por otro lado, me motiva seguir probando nuevos retos deportivos y actualmente me interesa especialmente la natación en aguas abiertas."
 ),
 
