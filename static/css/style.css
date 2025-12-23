@@ -1173,3 +1173,7 @@ html, body {
   .hot { cursor: pointer; }
   .card { transition: transform 0.28s ease, filter 0.28s ease; }
 }
+
+@media (max-width: 900px) {
+  #sobre-mi .deck { touch-action: pan-y; } /* permite scroll vertical, swipe horizontal controlado */
+}

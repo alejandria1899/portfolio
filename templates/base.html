@@ -78,49 +78,93 @@
     const deck = document.querySelector("#sobre-mi .deck");
     if (!deck) return;
 
-    deck.classList.add("is-center");
+    const states = ["is-left", "is-center", "is-right"];
+    let idx = 1; // empieza en center
 
-    const setState = (state) => {
-      deck.classList.remove("is-left", "is-center", "is-right");
-      deck.classList.add(state);
+    const setStateByIndex = (nextIdx) => {
+      idx = Math.max(0, Math.min(2, nextIdx));
+      deck.classList.remove(...states);
+      deck.classList.add(states[idx]);
     };
 
+    setStateByIndex(1);
+
+    // --- Desktop hover (se mantiene) ---
     const left = deck.querySelector(".hot.left");
     const center = deck.querySelector(".hot.center");
     const right = deck.querySelector(".hot.right");
 
-    // Desktop (hover)
-    if (left) left.addEventListener("mouseenter", () => setState("is-left"));
-    if (center) center.addEventListener("mouseenter", () => setState("is-center"));
-    if (right) right.addEventListener("mouseenter", () => setState("is-right"));
-    deck.addEventListener("mouseleave", () => setState("is-center"));
+    if (left) left.addEventListener("mouseenter", () => setStateByIndex(0));
+    if (center) center.addEventListener("mouseenter", () => setStateByIndex(1));
+    if (right) right.addEventListener("mouseenter", () => setStateByIndex(2));
+    deck.addEventListener("mouseleave", () => setStateByIndex(1));
 
-    // Mobile / Tablet (tap)
-    const tap = (el, state) => {
-      if (!el) return;
-      el.addEventListener(
-        "touchstart",
-        (e) => {
-          e.preventDefault();      // evita scroll raro al tocar
-          setState(state);
-        },
-        { passive: false }
-      );
+    // --- Mobile swipe (paso a paso, menos sensible) ---
+    let startX = 0;
+    let startY = 0;
+    let isDragging = false;
 
-      el.addEventListener("click", (e) => {
-        e.preventDefault();
-        setState(state);
-      });
-    };
+    // Ajusta sensibilidad:
+    const MIN_SWIPE_PX = 40;     // cuanto tiene que arrastrar para cambiar
+    const MAX_OFF_AXIS = 60;     // tolerancia vertical (si hay mucho scroll vertical, no actúa)
 
-    tap(left, "is-left");
-    tap(center, "is-center");
-    tap(right, "is-right");
+    deck.addEventListener(
+      "touchstart",
+      (e) => {
+        const t = e.touches[0];
+        startX = t.clientX;
+        startY = t.clientY;
+        isDragging = true;
+      },
+      { passive: true }
+    );
 
-    // Tap fuera del mazo => vuelve al centro
-    document.addEventListener("touchstart", (e) => {
-      if (!deck.contains(e.target)) setState("is-center");
-    });
+    deck.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!isDragging) return;
+
+        const t = e.touches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+
+        // Si el gesto es más vertical que horizontal, lo ignoramos (para no fastidiar el scroll)
+        if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 10) {
+          isDragging = false;
+          return;
+        }
+
+        // Si el gesto es claramente horizontal, evitamos que la página “tiemble”
+        if (Math.abs(dx) > 10 && Math.abs(dy) < MAX_OFF_AXIS) {
+          e.preventDefault();
+        }
+      },
+      { passive: false }
+    );
+
+    deck.addEventListener(
+      "touchend",
+      (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const t = e.changedTouches[0];
+        const dx = t.clientX - startX;
+        const dy = t.clientY - startY;
+
+        // si se fue mucho en vertical, no hacemos nada
+        if (Math.abs(dy) > MAX_OFF_AXIS) return;
+
+        if (dx <= -MIN_SWIPE_PX) {
+          // swipe izquierda -> mueve “a la derecha” (paso a paso)
+          setStateByIndex(idx + 1);
+        } else if (dx >= MIN_SWIPE_PX) {
+          // swipe derecha -> mueve “a la izquierda”
+          setStateByIndex(idx - 1);
+        }
+      },
+      { passive: true }
+    );
   })();
 </script>
 
